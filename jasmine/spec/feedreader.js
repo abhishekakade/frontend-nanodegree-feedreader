@@ -32,15 +32,41 @@ $(function() {
          * and that the URL is not empty.
          */
 
+        function testEachFeed(eachFeed) {
+            it('should loop over each feed and ensure it has a non-empty URL', function() {
+                expect(eachFeed).toBeDefined();
+                expect(eachFeed.length).not.toBe(0);                
+            });
+        }
+
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+
+        function testIfNameIsDefined(eachFeed) {
+            it('should loop over each feed and ensure it has a name and that name is not empty', function() {
+                expect(eachFeed).toBeDefined();
+                expect(eachFeed.length).not.toBe(0);                
+            });
+        }
+
+        // Loops over all the feeds and passes each feed through the testEachFeed and testIfName is Defined functions
+        for(let feed of allFeeds) {
+            testEachFeed(feed);
+            testIfNameIsDefined(feed['name']);
+            // console.log(feed);
+        }
+
     });
 
 
     /* TODO: Write a new test suite named "The menu" */
+
+    describe('The menu', function() {
+
+        const body = document.getElementsByTagName('body')[0];
 
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
@@ -48,14 +74,34 @@ $(function() {
          * hiding/showing of the menu element.
          */
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
+        it('should ensure the menu element is hidden by default', function() {
+            expect(body.classList).toContain("menu-hidden"); 
+        });
+
+
+        /* TODO: Write a test that ensures the menu changes
+         * visibility when the menu icon is clicked. This test
+         * should have two expectations: does the menu display when
+         * clicked and does it hide when clicked again.
+         */
+
+        it('should toggle the menu visibility when the menu icon is clicked', () => {
+            // To initiate a click event
+            document.getElementsByClassName("menu-icon-link")[0].click();
+            // console.log(document.getElementsByClassName("menu-icon-link")[0]);
+            // expect(body.classList).toContain("menu-hidden").toBe(false);
+            expect(body.classList.contains("menu-hidden")).toBe(false);
+        });
+
+    });
+
+
+
 
     /* TODO: Write a new test suite named "Initial Entries" */
 
+    describe('Initial Entries', function() {
+        
         /* TODO: Write a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
@@ -63,10 +109,37 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
 
+         beforeEach(function(done){
+            loadFeed(0, done);
+            console.log("test init");
+         });
+
+         it('should have at least a single .entry element within the .feed container', function() {
+             let varFeed = document.querySelector('.feed');
+
+             expect(varFeed.children.length > 0).toBe(true);
+             console.log("test passed!");
+         });
+
+    });
+
+
     /* TODO: Write a new test suite named "New Feed Selection" */
 
+    describe('New Feed Selection', function() {
+        
         /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        * by the loadFeed function that the content actually changes.
+        * Remember, loadFeed() is asynchronous.
+        */
+       
+
+        // it('content changes when a new feed is loaded by loadFeed function', function() {
+
+
+            
+        // });
+    
+    });
+
 }());
