@@ -34,7 +34,9 @@ $(function() {
 
         function testEachFeed(eachFeed) {
             it('should loop over each feed and ensure it has a non-empty URL', function() {
+                // each feed is defined
                 expect(eachFeed).toBeDefined();
+                // feed url is not empty
                 expect(eachFeed.length).not.toBe(0);                
             });
         }
@@ -55,6 +57,7 @@ $(function() {
         // Loops over all the feeds and passes each feed through the testEachFeed and testIfName is Defined functions
         for(let feed of allFeeds) {
             testEachFeed(feed);
+            // check if feed has a name 
             testIfNameIsDefined(feed['name']);
             // console.log(feed);
         }
@@ -75,6 +78,7 @@ $(function() {
          */
 
         it('should ensure the menu element is hidden by default', function() {
+            // check if body has a class menu-hidden by default/on load 
             expect(body.classList).toContain("menu-hidden"); 
         });
 
@@ -85,17 +89,17 @@ $(function() {
          * clicked and does it hide when clicked again.
          */
 
-        it('should toggle the menu visibility when the menu icon is clicked', () => {
-            // To initiate a click event
-            document.getElementsByClassName("menu-icon-link")[0].click();
-            // console.log(document.getElementsByClassName("menu-icon-link")[0]);
-            // expect(body.classList).toContain("menu-hidden").toBe(false);
-            expect(body.classList.contains("menu-hidden")).toBe(false);
+        it('should toggle the menu visibility when the menu icon is clicked', function() {
+            // To initiate a click event to show menu
+            let menuIconLink = document.getElementsByClassName("menu-icon-link")[0];
+            menuIconLink.click();
+            expect(body.className).not.toContain("menu-hidden");
+            // To initiate a click event to hide the open menu
+            menuIconLink.click();
+            expect(body.className).toContain("menu-hidden");
         });
 
     });
-
-
 
 
     /* TODO: Write a new test suite named "Initial Entries" */
@@ -109,17 +113,21 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
 
-         beforeEach(function(done){
+        let varFeed = document.querySelector('.feed');
+
+        beforeEach(function(done) {
             loadFeed(0, done);
             console.log("test init");
-         });
+        });
 
-         it('should have at least a single .entry element within the .feed container', function() {
-             let varFeed = document.querySelector('.feed');
+        it('should have at least a single .entry element within the .feed container', function(done) {
 
-             expect(varFeed.children.length > 0).toBe(true);
-             console.log("test passed!");
-         });
+            // To make sure there are more than one feeds on the page
+            expect(varFeed.children.length > 0).toBe(true);
+            //  console.log(varFeed.children);
+            done();
+            console.log("test run complete!");
+        });
 
     });
 
@@ -127,18 +135,28 @@ $(function() {
     /* TODO: Write a new test suite named "New Feed Selection" */
 
     describe('New Feed Selection', function() {
-        
+
         /* TODO: Write a test that ensures when a new feed is loaded
         * by the loadFeed function that the content actually changes.
         * Remember, loadFeed() is asynchronous.
         */
-       
 
-        // it('content changes when a new feed is loaded by loadFeed function', function() {
+        let firstFeed;
 
-
-            
-        // });
+        beforeEach(function(done) {
+            loadFeed(0, function () {
+                // To store the content of first feed load to firstFeed variable
+                firstFeed = document.querySelector('.feed').textContent;
+                loadFeed(1, done);
+            });
+        });
+        
+        it('content changes when new feed is loaded by loadFeed function', function (done) {
+            // To store the content of new feed to newFeed variable 
+            let newFeed = document.querySelector(".feed").textContent;
+            expect(firstFeed).not.toEqual(newFeed);
+            done();
+        });
     
     });
 
