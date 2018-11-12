@@ -32,35 +32,29 @@ $(function() {
          * and that the URL is not empty.
          */
 
-        function testEachFeed(eachFeed) {
-            it('should loop over each feed and ensure it has a non-empty URL', function() {
-                // each feed is defined
-                expect(eachFeed).toBeDefined();
-                // feed url is not empty
-                expect(eachFeed.length).not.toBe(0);                
-            });
-        }
+        it('should loop over each feed and ensure it has a non-empty URL', function() {
 
+            for(let feed of allFeeds) {
+                // each feed url is defined
+                expect(feed.url).toBeDefined();
+                // feed url is not empty
+                expect(feed.url.length).not.toBe(0); 
+            }
+        });
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
 
-        function testIfNameIsDefined(eachFeed) {
-            it('should loop over each feed and ensure it has a name and that name is not empty', function() {
-                expect(eachFeed).toBeDefined();
-                expect(eachFeed.length).not.toBe(0);                
-            });
-        }
-
-        // Loops over all the feeds and passes each feed through the testEachFeed and testIfName is Defined functions
-        for(let feed of allFeeds) {
-            testEachFeed(feed);
-            // check if feed has a name 
-            testIfNameIsDefined(feed['name']);
-            // console.log(feed);
-        }
+        it('should loop over each feed and ensure it has a name and that name is not empty', function() {
+            for(feed of allFeeds) {
+                // check if feed has a name 
+                expect(feed.name).toBeDefined();
+                // check if feed name is not 0 
+                expect(feed.name.length).not.toBe(0);                
+            }
+        });
 
     });
 
@@ -113,7 +107,7 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
 
-        let varFeed = document.querySelector('.feed');
+        let varFeed = document.getElementsByClassName('entry');
 
         beforeEach(function(done) {
             loadFeed(0, done);
@@ -122,8 +116,8 @@ $(function() {
 
         it('should have at least a single .entry element within the .feed container', function(done) {
 
-            // To make sure there are more than one feeds on the page
-            expect(varFeed.children.length > 0).toBe(true);
+            // To make sure there are more than one feeds (with class entry) on the page
+            expect(varFeed.length > 0).toBe(true);
             //  console.log(varFeed.children);
             done();
             console.log("test run complete!");
